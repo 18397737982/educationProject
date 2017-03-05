@@ -3,12 +3,12 @@ package com.gy.beans;
 import java.math.BigDecimal;
 
 public class Account {
-	private Stu_user stu_user;
+	private Admin stu_user;
 	private BigDecimal balance;
-	public Stu_user getStu_user() {
+	public Admin getStu_user() {
 		return stu_user;
 	}
-	public void setStu_user(Stu_user stu_user) {
+	public void setStu_user(Admin stu_user) {
 		this.stu_user = stu_user;
 	}
 	public BigDecimal getBalance() {

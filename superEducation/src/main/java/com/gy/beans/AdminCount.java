@@ -1,9 +1,9 @@
 package com.gy.beans;
 
-public class Stu_count {
+public class AdminCount {
 	private int stu_count_id;
 	private Course course;
-	private Stu_user stu_user;
+	private Admin stu_user;
 	
 	
 	public int getStu_count_id() {
@@ -19,10 +19,10 @@ public class Stu_count {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	public Stu_user getStu_user() {
+	public Admin getStu_user() {
 		return stu_user;
 	}
-	public void setStu_user(Stu_user stu_user) {
+	public void setStu_user(Admin stu_user) {
 		this.stu_user = stu_user;
 	}
 	@Override
