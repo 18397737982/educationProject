@@ -8,7 +8,7 @@ public class Notes {
 
 	private Date comment_time;
 	private Course course;
-	private Admin stu_user;
+	private UserInfo stu_user;
 	
 	
 	public int getNotes_id() {
@@ -36,10 +36,10 @@ public class Notes {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	public Admin getStu_user() {
+	public UserInfo getStu_user() {
 		return stu_user;
 	}
-	public void setStu_user(Admin stu_user) {
+	public void setStu_user(UserInfo stu_user) {
 		this.stu_user = stu_user;
 	}
 	@Override

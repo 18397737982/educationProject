@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gy.mapper.AdminMapper">
+	<insert id="addAdmin" parameterType="Admin">
+		insert into
+		userInfo(ad_name,realname,age,sex,pic,password,usign,introduce,email,status,ad_category,tel,qq)
+		values(#{ad_name},#{realname},#{age},#{pic},#{password},#{usign},#{introduce},#{email},#{status},#{ad_category},#{tel},#{qq},null,null)
+	</insert>
+	
+	<select id="findUsername" parameterType="UserInfo" resultType="UserInfo">
+		select user_name from userInfo where user_name=#{user_name}
+	</select>
+	
+	<select id="findEmail" parameterType="UserInfo" resultType="UserInfo">
+		select email from userInfo where email=#{email}
+	</select>
+</mapper>
