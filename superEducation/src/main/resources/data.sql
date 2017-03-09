@@ -28,7 +28,10 @@ create table userInfo(
 	temp02 varchar(200),
     temp03 varchar(200)
 );
-
+insert into
+		userInfo(user_name,realname,age,sex,pic,password,usign,introduce,email,status,user_category,tel,qq,time,temp02,temp03)
+		values('a','a',5,'a',null,'c','s','d','f',2,'g','g','d',null,null,null);
+select *from userInfo;
 --课程类别
 create table class_category(
 	class_id int primary key auto_increment,--课程类型id

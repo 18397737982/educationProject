@@ -37,7 +37,7 @@ $(function(){
 	});
 	
 	$("#loginOut").bind("click",function(){
-		$.post("userinfo/loginOut",function(data){
+		$.post("loginOut.action",function(data){
 			var listStr="";
 			if(data==true){
 				$("#topf").html("");
