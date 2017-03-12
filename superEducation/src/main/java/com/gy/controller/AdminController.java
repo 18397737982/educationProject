@@ -14,15 +14,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gy.beans.UserInfo;
+import com.gy.biz.CategoryBiz;
 import com.gy.biz.UserInfoBiz;
 import com.gy.util.UsuallyUtil;
 
 @Controller
+@SessionAttributes({"users","category"}) //①将ModelMap中属性名为users的属性  
 public class AdminController {
 	private UserInfoBiz userInfoBiz;
-
+	private CategoryBiz categoryBiz;
+	@Resource(name="categoryBizImpl")
+	public void setCategoryBiz(CategoryBiz categoryBiz) {
+		this.categoryBiz = categoryBiz;
+	}
 	public UserInfoBiz getuserInfoBiz() {
 		return userInfoBiz;
 	}
@@ -48,6 +55,7 @@ public class AdminController {
 	// 登录
 	@RequestMapping(value = "/login.action", method = RequestMethod.POST)
 	public String login(UserInfo userInfo, Model model, ModelMap map) {
+		model.addAttribute("category",this.categoryBiz.findAllCategory());
 		String name = userInfo.getUser_name();
 		List<UserInfo> list = null;
 		name = new UsuallyUtil().decode(name);

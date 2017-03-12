@@ -17,6 +17,8 @@
 	<!-- 加入包的扫描 -->
 	<context:component-scan base-package="com.gy" />
 
+
+
 		<!-- 启用注解解析框架 -->
 	<aop:aspectj-autoproxy />
 

@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
 <!-- 未登录前的头部----------- -->
+<script type="text/javascript" >
+if("${category}"==""){
+	$.post("getCategoryInformation.action",function(json){
+			
+	});
+}
+</script>
 <header class="header">
 	<div class="container">
 		<div class="navbar-header pull-left">
@@ -21,15 +30,9 @@
 				<li class="nav-hover"><a href="toCourse.action">课程 <b
 						class="caret"></b></a>
 					<ul class="dropdown-menu" role="menu" id="menu">
-						<li id="1"><a href="toCourse.action">摄影课堂</a></li>
-						<li id="2"><a href="toCourse.action">创意设计</a></li>
-						<li id="3"><a href="toCourse.action">声乐器乐</a></li>
-						<li id="4"><a href="toCourse.action">运动健身</a></li>
-						<li id="5"><a href="toCourse.action">IT互联网</a></li>
-						<li id="6"><a href="toCourse.action">兴趣爱好</a></li>
-						<li id="7"><a href="toCourse.action">语言学习</a></li>
-						<li id="8"><a href="toCourse.action">职场技能</a></li>
-						<li id="9"><a href="toCourse.action">公开课</a></li>
+						<c:forEach var="item" items="${category}" varStatus="status" >
+				          		<li class="change"  id="${item.class_id}"><a href="toCourse.action/${item.class_id}">${item.class_categorys}</a></li>
+				          </c:forEach>
 					</ul></li>
 				<li class=""><a href="javascript:void(0);">班级 </a></li>
 				<li class=""><a href="toGroups.action">小组 </a></li>

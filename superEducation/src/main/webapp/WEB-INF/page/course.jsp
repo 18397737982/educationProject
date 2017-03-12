@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html class="">
 <head>
-<base href="/newhaozhiwang/"/>
+<base href="/superEducation/"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -17,11 +18,11 @@
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/tcdPageCode.css">
 <script src="js/jquery.js"></script> 
-<script  type="text/javascript" src="js/jquery.page.js"></script>
+ <script  type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script src="js/swiper-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script> 
 <script src="js/top.js"></script>
-<script type="text/javascript" src="js/course.js"></script>
+
 <script src="js/goeasy.js"></script>
 
 
@@ -34,78 +35,49 @@
 </head>
 <body class="hzco-classify">
 
-
-<script type="text/javascript">
- 	
-/*精品课程*/
- 
-	
-	if("${users}"!=""){
-		
-		$.post("attention/getInformation/",{userid: "${users.userid}"},function(data){
-			if(parseInt(data)!=0){
-				$("#SendMsg").css("display","block");
-				$("#inform").css("display","block");
-				$("#inform").html(data);
+ <!-- <script type="text/javascript" src="js/course.js"></script>/*精品课程*/ -->
+<script type="text/javascript" >
+function courses(class_id,rang){
+	//获取页面课程信息
+	$.ajax({
+		url:"getCourseInformation.action",
+		data: {"class_id": class_id,
+					"rang":rang		//最热排序  -1    
+		},
+		method:"POST",
+		type:"JSON",
+		dataType: 'json',
+		success:function(data){
+			$("#SendMsg").css("display","block");
+			$("#inform").css("display","block");
+			$("#findCourse").html('');
+			for(var i=0;i<data.length;i++){
+				var thiscourse=data[i];			
+			$("#findCourse").append("<div class='col-md-4 col-xs-6'>"
+						+"<div class='course-item'  id='course"+thiscourse.course_id+"'>"
+								+" <div class='course-img' id='cimg"+thiscourse.course_id+"'> <a href='toOneCourse.action/"+thiscourse.course_id+"' > <img src='images/160148ccf620140008.jpg' alt='' class='''> </a> </div>"
+								+"  <div class='course-info'>"
+										+"<div class='title text-o-show'> <a href='toOneCourse.action/"+thiscourse.course_id+"' >"+thiscourse.course_name+"</a> </div>"
+										+"<div class='metas'  style='color:#666'><span>浏览量:"+thiscourse.course_view+"</span>/ <span>学员:</span>/ <span>评分</span> </div>"
+										+"<div class='teacher text-o-show'> <a class=' js-user-card' href='javaScript:void(0);' data-card-url='/user/1282433/card/show' data-user-id='1282433'> "
+											+"<img class='avatar-ss ' src=' images/2001255a2bbc776915.jpg' alt='' >"+thiscourse.userInfo.user_name+"</a>"
+											+" <div class='price free pull-right'><span>￥:"+thiscourse.price+"</span></div>"
+								  		+"</div>"
+								+"</div>"
+						+"</div>"
+	+"</div>"
+						
+	); 
 			}
-		},"json");
-		
-		
-		
-		
-		
-		
-			var userid="${users.userid}";
-		    var goEasy = new GoEasy({
-			appkey: "4ea18126-cec1-4cce-8569-ad314901d30d"});
 			
-			    goEasy.subscribe({
-			             channel: "eb367e1f-1b28-4ce2-a32d-cd5347de7816",
-			             onMessage: function (message) {
-				alert(message.content);
-				var reg=/&quot;/g;
-				//console.info();
-				content=message.content.replace(reg,"\"");
-				content=eval('(' + content + ')');
-				alert(content.data.list);
-				//alert(message.content);
-				for(var i=0;i<content.data.list.length;i++){
-					if(userid==content.data.list[i]){
-						alert("yes");
-						$("#SendMsg").css("display","block");
-						if(content.code==1){
-							if($("#inform").html()!=""){
-								$("#inform").html(parseInt($("#inform"))+1);
-							}else{
-								$("#inform").html(1);
-							}
-							
-						}else if(content.code==2){
-							if($("#letter").html()!=""){
-								$("#letter").html(parseInt($("#letter"))+1);
-							}else{
-								$("#letter").html(1);
-							}
-						}else if(content.code==3){
-							if($("#answer").html()!=""){
-								$("#answer").html(parseInt($("#answer"))+1);
-							}else{
-								$("#answer").html(1);
-							}
-						}else if(content.code==4){
-							if($("#questionAndAnswer").html()!=""){
-								$("#questionAndAnswer").html(parseInt($("#questionAndAnswer"))+1);
-							}else{
-								$("#questionAndAnswer").html(1);
-							}
-						}
-					}
-				}
-			             }})
-	}
+			
+		}
+	});
+
 	
-		
-	
+}
+
+
 </script>
 <!-- 头部 -------------------------------------------------------------------  -->			
 <c:set value="${users}" var="us"/>
@@ -118,16 +90,19 @@
 <!-- 头部 分割线------------------------------------------------------------------------------------  -->		
 <div class="container" id="content-container" style="margin-top: 30px;">
   <ul class="tab-head tab clearfix">
-    <li class="act first" id="0"> <a href="javaScript:void(0);">全部</a> </li>
-    <li class="" id="1"> <a href="javaScript:void(0);">摄影课堂</a> </li>
-    <li class="" id="2"> <a href="javaScript:void(0);">创意设计</a> </li>
-    <li class="" id="3"> <a href="javaScript:void(0);">声乐器乐</a> </li>
-    <li class="" id="4"> <a href="javaScript:void(0);">运动健身</a> </li>
-    <li class="" id="5"> <a href="javaScript:void(0);">IT互联网</a> </li>
-    <li class="" id="6"> <a href="javaScript:void(0);">兴趣爱好</a> </li>
-    <li class="" id="7"> <a href="javaScript:void(0);">语言学习</a> </li>
-    <li class="" id="8"> <a href="javaScript:void(0);">职场技能</a> </li>
-    <li class="last" id="9"> <a href="javaScript:void(0);">公开课</a> </li>
+  <c:forEach var="item" items="${category}" varStatus="status" >
+  			<c:choose>
+		  			<c:when test="status.first">
+		  			      <li class="act first"  id="${item.class_id}"><a href="toCourse.action/${item.class_id}" >${item.class_categorys}</a></li>
+		  			</c:when>
+		  			<c:when test="status.last">
+		  			      <li class="last"  id="${item.class_id}"><a href="toCourse.action/${item.class_id}" >${item.class_categorys}</a></li>
+		  			</c:when>
+		  			<c:otherwise>
+		  				<li class=""  id="${item.class_id}"><a href="toCourse.action/${item.class_id}" >${item.class_categorys}</a></li>
+		  			</c:otherwise>
+  			</c:choose>
+   </c:forEach>
   </ul>
   <div class="category"> </div>
   <div class="row co-classify-list">
@@ -144,9 +119,9 @@
         <span class="close" aria-hidden="true" data-dismiss="alert">×</span> </div>
       <div class="sort-nav">
         <dl class="clearfix" id="sortNav">
-          <dd class="first"><a class="act" href="javascript:void(0);" id="0">综合排序</a></dd>
-          <dd><a class="" href="javascript:void(0);" id="1">最新</a></dd>
-          <dd><a class="" href="javascript:void(0);" id="2">最热</a></dd>
+          <dd class="first"><a class="act" href="javascript:void(0);onclick="courses(${class_id},0)"" id="0">综合排序</a></dd>
+          <dd><a class="" href="javascript:void(0);" onclick="courses(${class_id},-2)" id="1">最新</a></dd>
+          <dd><a class="" href="javascript:void(0);" onclick="courses(${class_id},-1)" id="2">最热</a></dd>
 <!--           <dd class="price-order"> <a href="javaScript:void(0);">价格排序<i style="font-size:10px;margin-left:3px;" class="glyphicon glyphicon-chevron-down"></i></a>
             <ul>
               <li><a class="" href="javascript:void(0);">价格从低到高</a></li>
@@ -161,22 +136,24 @@
       
       <!--  从数据库查出来的课程------------------------------------------------------------------------------------------------ -->
 
-<%--        <if test="${courses}!=null">
-       <c:forEach items="${courses}" var="item"> --%>
-        <div class="col-md-4 col-xs-6">
-          <div class="course-item ">
-            <div class="course-img" id="cimg"> <a href="javaScript:void(0);" > <img src="images/160148ccf620140008.jpg" alt="" class=""> </a> </div>
-            <div class="course-info">
-              <div class="title text-o-show"> <a href="javaScript:void(0);" ></a> </div>
-              <div class="metas"  style="color:#666"><span>浏览量:</span>/ <span>学员</span>/ <span>评分</span> </div>
-              <div class="teacher text-o-show"> <a class=" js-user-card" href="javaScript:void(0);" data-card-url="/user/1282433/card/show" data-user-id="1282433"> 
-              	<img class="avatar-ss " src=" images/2001255a2bbc776915.jpg" alt="" ></a>
-                <div class="price free pull-right"><span>免费</span></div>
-              </div>
-            </div>
+        <if test="${courses}!=null">
+        	<c:forEach items="${courses}" var="item"> 
+        	        <div class="col-md-4 col-xs-6">
+	        <!-- 课程 -->
+	          <div class="course-item " id="course${item.course_id}">
+			            <div class="course-img"  id="cimg${item.course_id}"> <a href="'toOneCourse.action/"+${item.course_id}+"' " > <img src="images/160148ccf620140008.jpg" alt="" class=""> </a> </div>
+			            <div class="course-info">
+			              <div class="title text-o-show"> <a href="'toOneCourse.action/"+${item.course_id}+"' " ></a>${item.course_name} </div>
+			              <div class="metas"  style="color:#666"><span>浏览量:${item.course_view}</span>/ <span>学员</span>/ <span>评分</span> </div>
+			              <div class="teacher text-o-show"> <a class=" js-user-card" href="javaScript:void(0);" data-card-url="/user/1282433/card/show" data-user-id="1282433"> 
+			              	<img class="avatar-ss " src=" images/2001255a2bbc776915.jpg" alt="" >${item.userInfo.user_name}</a>
+			                <div class="price free pull-right"><span>￥：${item.price}</span></div>
+			              </div>
+			            </div>
           </div>
         </div>    
-<%--        </c:forEach></if> --%>
+        	</c:forEach>
+        </if>
        <!--  从数据库查出来的课程 0 ------------------------------------------------------------------------------------------------ -->
              
       </div>   
@@ -190,6 +167,25 @@
       <div class="rec-classroom nobottom wall">
         <h2> 推荐班级 </h2>
         <ul class="course clearfix row">
+        
+<%--         <if test="${recordcourses}!=null">
+        	<c:forEach items="${recordcourses}" var="record"> 
+			        <li class="course-item col-md-12 col-xs-6">
+			            <div class="course-img"> <a href="'toOneCourse.action/"+${record.course_id}+"' "> <img src="images/144103f87e49421080.jpg" alt="${record.course_name}" class=""> </a>
+			              <div class="classroom-tag md hz-triangle"><span>班级</span></div>
+			            </div>
+			            <div class="course-info">
+			              <div class="title text-o-show"> <a href="javaScript:void(0)">${record.course_name}</a> </div>
+			              <div class="teacher text-o-show"> <a class=" js-user-card" href="javaScript:void(0)" data-card-url="/user/1882233/card/show" data-user-id="1882233"> <img class="avatar-ss " src="images/105454e6cdc9246475.jpg" alt="${record.userInfo.user_name}"> ${record.userInfo.user_name}</a> <span class="dapinpai-icon-t" title="达品牌"></span>
+			                <div class="price pull-right"><span>￥：${record.price}</span></div>
+			              </div>
+			            </div>
+			          </li>
+        	</c:forEach>
+        </if> --%>
+        
+          
+        
         
         <!--  从数据库里面查出的推荐班级 ----------------------------------------------------------------------------------------- --->
            <li class="course-item col-md-12 col-xs-6">
@@ -229,7 +225,7 @@
             <div class="course-info">
               <div class="title text-o-show"> <a href="http://www.howzhi.com/course/13254/"></a> </div>
               <div class="teacher text-o-show"> <a class=" js-user-card" href="http://www.howzhi.com/u/1637688/" data-card-url="/user/1637688/card/show" data-user-id="1637688"> <img class="avatar-ss " src="images/11480117880b049054.jpg" alt="luemery"></a>
-                <div class="price free pull-right"><span>免费</span></div>
+                <div class="price free pull-right"><span>￥:128</span></div>
               </div>
             </div>
           </li>

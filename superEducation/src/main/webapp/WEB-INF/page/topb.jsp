@@ -4,24 +4,18 @@
 <%@page isELIgnored="false" %>
 <header class="header" style="z-index: 2000">
   <div class="container" >
-    <div class="navbar-header pull-left"> <a href="page/index.jsp" class="navbar-brand"> <img src="images/logo.png" class="img-responsive" alt="好知，howzhi.com"> </a>
+    <div class="navbar-header pull-left"> <a href="skip_index.action" class="navbar-brand"> <img src="images/logo.png" class="img-responsive" alt="好知，howzhi.com"> </a>
       <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
     </div>
     <nav class="collapse navbar-collapse pull-left">
       <ul class="nav navbar-nav topmenu">
         <li class="visible-xs"> <a href="page/index.jsp"><i class="fa fa-search mrm"></i>搜索</a> </li>
         <li class=""> <a href="page/learnCenter.jsp">学习中心 </a> </li>
-        <li class="nav-hover" > <a href="page/course.jsp">课程 <b class="caret"></b></a>
-          <ul class="dropdown-menu"  role="menu" id="dropdown-menu">
-            <li class="change" ><a href="page/course.jsp">摄影课堂</a></li>
-            <li><a href="page/course.jsp">创意设计</a></li>
-            <li><a href="page/course.jsp">声乐器乐</a></li>
-            <li><a href="page/course.jsp">运动健身</a></li>
-            <li><a href="page/course.jsp">IT互联网</a></li>
-            <li><a href="page/course.jsp">兴趣爱好</a></li>
-            <li><a href="page/course.jsp">语言学习</a></li>
-            <li><a href="page/course.jsp">职场技能</a></li>
-            <li><a href="page/course.jsp">公开课</a></li>
+        <li class="nav-hover" > <a href="toCourse.action">课程 <b class="caret"></b></a>
+          <ul class="dropdown-menu"  role="menu" id="menu">
+            <c:forEach var="item" items="${category}" varStatus="status" >
+          		<li class="change"  id="${item.class_id}"><a href="toCourse.action/${item.class_id}">${item.class_categorys}</a></li>
+          </c:forEach>
           </ul>
         </li>
         <li class=""> <a href="javaScript:void(0);">班级 </a> </li>
@@ -33,8 +27,12 @@
     </nav>
     <div class="pull-right user-nav clearfix" id="topf" >
     	<ul class="nav pull-right">
-	        <li class="hidden-xs hidden-sm"> <a class="btn btn-primary radius" href="page/createcourse.jsp"><i style="color: rgb(255, 247, 255);" class="glyphicon glyphicon-plus"></i> 创建课程</a> </li>
-	        <li class="dropdown user-nav-dropdown user-img"> <a href="#" class="dropdown-toggle" id="toggle"> <img src="${users.pic }" class="user-avatar" alt="${users.user_name }" id="${users.user_id}"> </a>
+	       <c:set value="${users.user_category }" var="user_category"/>
+    	<c:if test="${user_category=='老师'}">
+    		<li class="hidden-xs hidden-sm"> <a class="btn btn-primary radius" href="page/createcourse.jsp"><i style="color: rgb(255, 247, 255);" class="glyphicon glyphicon-plus"></i> 创建课程</a> </li>
+    	</c:if>
+    	
+	        <li class="dropdown user-nav-dropdown user-img"> <a href="#" class="dropdown-toggle" id="toggle"> <img src="${users.pic }" class="user-avatar" alt="" id="${users.user_id}">${users.user_name } </a>
           		<ul class="dropdown-menu" role="menu" id="dropdown-menu">
 		            <li> <a href="page/learnCenter.jsp" ><i style="color:#666;" class="glyphicon glyphicon-home" ></i>学习中心</a> </li>
 		            <li><a href="page/person.jsp"><i style="color:#666;" class="glyphicon glyphicon-user" ></i>个人主页</a></li>

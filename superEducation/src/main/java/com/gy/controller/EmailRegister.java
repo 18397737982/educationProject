@@ -40,7 +40,7 @@ public class EmailRegister {
 		int yzm=RandomNumUtil.getRandomNumber();//生成六位不重复随机数
 		model.addAttribute("yzm", yzm);
 		//map.put("yzm", yzm);
-		activeAccountMail("超级学习网注册验证信息","您的验证码是："+yzm,"18397737982@163.com",email);
+		activeAccountMail("超级学习网注册验证信息","您的验证码是："+yzm+",请认真确认后在是您的操作之后，在执行操作","18397737982@163.com",email);
 		out.print(yzm);
 		out.flush();
 		out.close();
